@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function createTimer(name: string) {
@@ -45,16 +45,57 @@ function ModuleBlock({ name, time, onClick }: { name: string; time: number; onCl
     const [seconds, setSeconds] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
 
+    function formatTime(sec: number) {
+        const date = new Date(sec * 1000)
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+
+        return `${hours}:${minutes}:${seconds}`
+    }
+
+    let buttonText = ''
+
+    function startStopButtonOnClick() {
+        setIsRunning(!isRunning)
+    }
+
+    // timing effect
+    useEffect(() => {
+        if (!isRunning) {
+            return
+        }
+
+        function addSecond() {
+            setSeconds((prev) => prev + 1)
+        }
+
+        // skip one second wait after btn press
+        addSecond()
+
+        // runs add second every second
+        const interval = setInterval(addSecond, 1000)
+
+        // stop setInterval from firing
+        return () => {
+            clearInterval(interval)
+        }
+    }, [isRunning])
+
+    const formattedTime = formatTime(seconds)
+
     return (
         <div className="module-block">
             <button className="delete-btn" onClick={onClick}></button>
             <span>{name}</span>
             <div className="time-container">
-                <h3 className="time-text">{time}</h3>
+                <h3 className="time-text">{formattedTime}</h3>
+                <GeneralButton btnText={isRunning ? 'Stop' : 'Start'} onClick={startStopButtonOnClick} />
             </div>
         </div>
     )
 }
+
 function GeneralButton({ btnText, onClick }: { btnText: string; onClick: () => void }) {
     return (
         <button className="module-btn" onClick={onClick}>
