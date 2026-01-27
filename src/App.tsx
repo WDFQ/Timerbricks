@@ -33,7 +33,7 @@ export default function App() {
                 {
                     /* renders each timer component */
                     timer.map((timer) => (
-                        <ModuleBlock key={timer.id} name={timer.name} time={timer.time} onClick={() => deleteTimer(timer.id)} />
+                        <ModuleBlock key={timer.id} name={timer.name} onClick={() => deleteTimer(timer.id)} />
                     ))
                 }
             </div>
@@ -41,7 +41,7 @@ export default function App() {
     )
 }
 
-function ModuleBlock({ name, time, onClick }: { name: string; time: number; onClick: () => void }) {
+function ModuleBlock({ name, onClick }: { name: string; onClick: () => void }) {
     const [seconds, setSeconds] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
 
@@ -53,8 +53,6 @@ function ModuleBlock({ name, time, onClick }: { name: string; time: number; onCl
 
         return `${hours}:${minutes}:${seconds}`
     }
-
-    let buttonText = ''
 
     function startStopButtonOnClick() {
         setIsRunning(!isRunning)
