@@ -1,0 +1,20 @@
+.module-block {
+    border-radius: 12px;
+    color: white;
+    background-color: grey;
+    padding: 20px 40px;
+    margin: 20px;
+}
+
+.time-container {
+    background-color: #bfdbf7;
+    border-radius: 7px;
+}
+
+.time-text {
+    color: #022b3a;
+}
+
+.module-btn {
+    background-color: #1f7a8c;
+}
