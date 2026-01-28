@@ -1,20 +1,38 @@
 .module-block {
+    display: flex;
+    flex-direction: column;
     border-radius: 12px;
     color: white;
     background-color: grey;
-    padding: 20px 40px;
     margin: 20px;
 }
-
 .time-container {
+    display: flex;
     background-color: #bfdbf7;
     border-radius: 7px;
+    justify-content: center;
 }
-
 .time-text {
     color: #022b3a;
 }
-
 .module-btn {
     background-color: #1f7a8c;
+    margin: 5px;
+}
+.x-container {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 5px;
+}
+#functionality-container {
+    padding: 20px 40px;
+}
+.delete-btn {
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #000000;
+}
+.delete-btn:hover {
+    color: #ff4444;
 }
