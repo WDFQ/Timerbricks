@@ -1,39 +1,30 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-function createTimer(name: string) {
-    return {
-        id: Date.now(),
-        name: name,
-        time: 0,
-        isRunning: false,
-    }
-}
-
 export default function App() {
-    const [timer, setTimer] = useState([createTimer('average stopwatch')])
+    // create timer object with id
+    const [timers, setTimers] = useState([{ id: Date.now() }])
 
     function addTimer() {
-        const timerArrayCopy = timer.slice()
-        timerArrayCopy.push(createTimer('average stopwatch'))
-        setTimer(timerArrayCopy)
+        const timerArrayCopy = timers.slice()
+        timerArrayCopy.push({ id: Date.now() })
+        setTimers(timerArrayCopy)
     }
 
     function deleteTimer(id: number) {
-        const updatedArray = timer.filter((item) => item.id !== id)
-        setTimer(updatedArray)
+        const updatedArray = timers.filter((item) => item.id !== id)
+        setTimers(updatedArray)
     }
 
     // returns an add button and loops and renders entire timer grid
     return (
         <div>
-            {/* <button onClick={addTimer}>+ Add timer</button> */}
             <GeneralButton btnText="add timer" onClick={addTimer} />
             <div className="timer-grid">
                 {
                     /* renders each timer component */
-                    timer.map((timer) => (
-                        <ModuleBlock key={timer.id} name={timer.name} onClick={() => deleteTimer(timer.id)} />
+                    timers.map((timer) => (
+                        <ModuleBlock key={timer.id} onClick={() => deleteTimer(timer.id)} />
                     ))
                 }
             </div>
@@ -41,17 +32,19 @@ export default function App() {
     )
 }
 
-function ModuleBlock({ name, onClick }: { name: string; onClick: () => void }) {
+function ModuleBlock({ onClick }: { onClick: () => void }) {
     const [seconds, setSeconds] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
+    const [isEditing, setIsEditing] = useState(false)
+    const [name, setName] = useState('Average Timer')
 
     function formatTime(sec: number) {
-        const date = new Date(sec * 1000)
-        const hours = String(date.getHours()).padStart(2, '0')
-        const minutes = String(date.getMinutes()).padStart(2, '0')
-        const seconds = String(date.getSeconds()).padStart(2, '0')
+        const hours = Math.floor(sec / 3600)
+        const minutes = Math.floor((sec % 3600) / 60)
+        const seconds = sec % 60
 
-        return `${hours}:${minutes}:${seconds}`
+        // uses 0 as filler/padding
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
     }
 
     function startStopButtonOnClick() {
@@ -82,10 +75,29 @@ function ModuleBlock({ name, onClick }: { name: string; onClick: () => void }) {
 
     const formattedTime = formatTime(seconds)
 
+    let nameElement
+    if (isEditing) {
+        nameElement = (
+            <input
+                autoFocus
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                onBlur={() => setIsEditing(false)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        setIsEditing(false)
+                    }
+                }}
+            />
+        )
+    } else {
+        nameElement = <h3 onClick={() => setIsEditing(true)}>{name}</h3>
+    }
+
     return (
         <div className="module-block">
             <button className="delete-btn" onClick={onClick}></button>
-            <span>{name}</span>
+            {nameElement}
             <div className="time-container">
                 <h3 className="time-text">{formattedTime}</h3>
                 <GeneralButton btnText={isRunning ? 'Stop' : 'Start'} onClick={startStopButtonOnClick} />
