@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import './App.css'
+import './darkApp.css'
 
 export default function App() {
     // create timer object with id
     const [timers, setTimers] = useState([{ id: Date.now() }])
+    const [isLight, setIsLight] = useState(true)
+
     function addTimer() {
         const timerArrayCopy = timers.slice()
         timerArrayCopy.push({ id: Date.now() })
@@ -13,23 +17,35 @@ export default function App() {
         const updatedArray = timers.filter((item) => item.id !== id)
         setTimers(updatedArray)
     }
+
+    function switchColorModes() {
+        if (isLight) {
+            setIsLight(false)
+        } else {
+            setIsLight(true)
+        }
+    }
+
     // returns an add button and loops and renders entire timer grid
     return (
-        <div className="body">
+        <div className={isLight ? 'light' : 'dark'}>
             <nav className="navbar">
                 <h1 className="logo">TimerBricks</h1>
                 <div className="nav-controls">
-                    <GeneralButton btnText="add timer" onClick={addTimer} />
+                    <GeneralButton btnText="+ Add Timer" onClick={addTimer} />
+                    <GeneralButton btnText={isLight ? '🌙' : '☀️'} onClick={switchColorModes} />
                 </div>
             </nav>
 
             <div className="timer-grid">
-                {
-                    /* renders each timer component */
-                    timers.map((timer) => (
-                        <ModuleBlock key={timer.id} onClick={() => deleteTimer(timer.id)} />
-                    ))
-                }
+                <AnimatePresence>
+                    {
+                        /* renders each timer component */
+                        timers.map((timer) => (
+                            <ModuleBlock key={timer.id} onClick={() => deleteTimer(timer.id)} />
+                        ))
+                    }
+                </AnimatePresence>
             </div>
         </div>
     )
@@ -92,7 +108,14 @@ function ModuleBlock({ onClick }: { onClick: () => void }) {
         nameElement = <h3 onClick={() => setIsEditing(true)}>{name}</h3>
     }
     return (
-        <div className="module-block">
+        <motion.div
+            className="module-block"
+            layout
+            initial={{ opacity: 0, scale: 0.9, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            transition={{ duration: 0.3, layout: { duration: 0.3 } }}
+        >
             <div className="x-container">
                 {nameElement}
                 <button className="delete-btn" onClick={onClick}>
@@ -108,7 +131,7 @@ function ModuleBlock({ onClick }: { onClick: () => void }) {
                     <GeneralButton btnText="Reset" onClick={resetTimer} />
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 function GeneralButton({ btnText, onClick }: { btnText: string; onClick: () => void }) {
