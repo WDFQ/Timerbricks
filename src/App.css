@@ -1,16 +1,54 @@
+.body {
+    width: 100vw;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    padding: 16px 32px;
+
+    background: white;
+    color: #022b3a;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.timer-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
 .module-block {
     display: flex;
     flex-direction: column;
+
     border-radius: 12px;
-    color: white;
-    background-color: grey;
-    margin: 20px;
+    width: calc(25% - 15px);
+
+    color: #022b3a;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(2, 43, 58, 0.1);
 }
 .time-container {
     display: flex;
-    background-color: #bfdbf7;
-    border-radius: 7px;
     justify-content: center;
+
+    padding: 20px;
+    border-radius: 12px;
+
+    font-size: 32px;
+    font-weight: 600;
+    background-color: #bfdbf7;
 }
 .time-text {
     color: #022b3a;
@@ -19,20 +57,30 @@
     background-color: #1f7a8c;
     margin: 5px;
 }
+
 .x-container {
     display: flex;
-    flex-direction: row-reverse;
-    padding: 5px;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-between;
 }
+
 #functionality-container {
     padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
+
+#btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .delete-btn {
     background: none;
     cursor: pointer;
     font-size: 1rem;
-    color: #000000;
-}
-.delete-btn:hover {
-    color: #ff4444;
+    color: #bfdbf7;
 }

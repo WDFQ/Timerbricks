@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+
 export default function App() {
     // create timer object with id
     const [timers, setTimers] = useState([{ id: Date.now() }])
@@ -14,8 +15,14 @@ export default function App() {
     }
     // returns an add button and loops and renders entire timer grid
     return (
-        <div>
-            <GeneralButton btnText="add timer" onClick={addTimer} />
+        <div className="body">
+            <nav className="navbar">
+                <h1 className="logo">TimerBricks</h1>
+                <div className="nav-controls">
+                    <GeneralButton btnText="add timer" onClick={addTimer} />
+                </div>
+            </nav>
+
             <div className="timer-grid">
                 {
                     /* renders each timer component */
@@ -27,6 +34,7 @@ export default function App() {
         </div>
     )
 }
+
 function ModuleBlock({ onClick }: { onClick: () => void }) {
     const [seconds, setSeconds] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
@@ -86,17 +94,19 @@ function ModuleBlock({ onClick }: { onClick: () => void }) {
     return (
         <div className="module-block">
             <div className="x-container">
+                {nameElement}
                 <button className="delete-btn" onClick={onClick}>
                     x
                 </button>
             </div>
             <div id="functionality-container">
-                {nameElement}
                 <div className="time-container">
                     <h3 className="time-text">{formattedTime}</h3>
                 </div>
-                <GeneralButton btnText={isRunning ? 'Stop' : 'Start'} onClick={startStopButtonOnClick} />
-                <GeneralButton btnText="Reset" onClick={resetTimer} />
+                <div className="btn-container">
+                    <GeneralButton btnText={isRunning ? 'Stop' : 'Start'} onClick={startStopButtonOnClick} />
+                    <GeneralButton btnText="Reset" onClick={resetTimer} />
+                </div>
             </div>
         </div>
     )
