@@ -93,6 +93,7 @@ function ModuleBlock({ onClick }: { onClick: () => void }) {
     if (isEditing) {
         nameElement = (
             <input
+                className="input-box"
                 autoFocus
                 type="text"
                 onChange={(e) => setName(e.target.value)}

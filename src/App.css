@@ -45,6 +45,12 @@
     background-color: white;
     box-shadow: 0 2px 8px rgba(2, 43, 58, 0.1);
 }
+
+.light .input-box {
+    background-color: #e1e5f2;
+    color: black;
+}
+
 .light .time-container {
     display: flex;
     justify-content: center;
